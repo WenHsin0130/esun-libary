@@ -7,11 +7,16 @@ import IconField from 'primevue/iconfield'
 import InputIcon from 'primevue/inputicon'
 
 import { ref } from 'vue';
+import { useRouter } from 'vue-router'
+
+// 頁面跳轉功能
+const router = useRouter()
 
 const items = ref([
     {
         label: '查看個人資料',
-        icon: 'pi pi-id-card'
+        icon: 'pi pi-id-card',
+        command: () => router.push('/personal-data')  
     },
     {
         label: '借閱紀錄',
