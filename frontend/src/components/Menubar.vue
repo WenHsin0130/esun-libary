@@ -12,15 +12,21 @@ import { useRouter } from 'vue-router'
 // 頁面跳轉功能
 const router = useRouter()
 
+// 點擊登入跳轉登入頁面
+const goLogin = () => {
+  router.push('/login')
+}
+
 const items = ref([
     {
         label: '查看個人資料',
         icon: 'pi pi-id-card',
-        command: () => router.push('/personal-data')  
+        command: () => router.push('/personal-data')
     },
     {
         label: '借閱紀錄',
-        icon: 'pi pi-bookmark'
+        icon: 'pi pi-bookmark',
+        command: () => router.push('/borrow-record')
     }
 ])
 
@@ -40,7 +46,7 @@ const items = ref([
             </template>
 
             <template #end>
-                <SplitButton icon="pi pi-user" label="登入" :model="items"  severity="info"></SplitButton>
+                <SplitButton @click="goLogin" icon="pi pi-user" label="登入" :model="items" severity="info"></SplitButton>
             </template>
         </Toolbar>
     </div>

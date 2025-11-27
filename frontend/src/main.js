@@ -16,7 +16,8 @@ import { createRouter, createWebHistory } from "vue-router"
 // router 頁面引入
 import PersonalData from "./pages/PersonalData.vue"
 import BookData from './pages/BookData.vue'
-
+import Login from "./pages/Login.vue"
+import BorrowRecord from './pages/BorrowRecord.vue'
 
 
 const app = createApp(App)
@@ -31,7 +32,9 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', component: BookData },
-    { path: '/personal-data', component: PersonalData }
+    { path: '/personal-data', component: PersonalData },
+    { path: '/login', component: Login },
+    { path: '/borrow-record', component: BorrowRecord }
   ],
 });
 
