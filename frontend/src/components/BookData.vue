@@ -43,7 +43,8 @@ const confirmBorrow = (isbn) => {
 
     confirm.require({
         // 借閱視窗控制: 借閱或取消
-        header: `借閱《${book.name}》`, // 書名
+        header: `借閱《${book.name}》`, // 表頭呈現書名
+        isbn: book.ISBN, // 書號
         bookname: book.name, // 書名
         author: book.author, // 作者
         introduction: book.introduction, // 內容簡介
@@ -79,6 +80,7 @@ const confirmBorrow = (isbn) => {
             <template #message="slotProps">
                 <div class="flex flex-col items-center w-full gap-4 border-b border-surface-200 dark:border-surface-700" style="width: 30rem">
                     <p>書名：{{ slotProps.message.bookname }}</p>
+                    <p>ISBN：{{ slotProps.message.isbn }}</p>
                     <p>作者：{{ slotProps.message.author }}</p>
                     <p>介紹：{{ slotProps.message.introduction }}</p>
                 </div>
