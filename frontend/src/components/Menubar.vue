@@ -41,7 +41,7 @@ const items = ref([
                     <InputIcon>
                         <i class="iconfont pi pi-search" />
                     </InputIcon>
-                    <InputText placeholder="Search" />
+                    <InputText placeholder="搜尋" />
                 </IconField>
             </template>
 
