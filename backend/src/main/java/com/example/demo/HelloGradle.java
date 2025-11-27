@@ -8,6 +8,6 @@ public class HelloGradle {
 
     @GetMapping("/")
     public String home() {
-        return "測試頁面!";
+        return "backend running...";
     }
 }

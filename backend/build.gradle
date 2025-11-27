@@ -20,8 +20,13 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-web' // Spring boot web 必須引用的套件
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JPA: 用於簡化數據訪問層的開發，簡化執行 CRUD 的方式
+
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:3.1.4' // 連接 MySQL 的工具
+
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
