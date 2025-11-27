@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloGradle {
 
     @GetMapping("/")
+    // 當使用者在瀏覽器輸入 http://localhost:8080/ 時出現以下訊息
     public String home() {
         return "backend running...";
     }
