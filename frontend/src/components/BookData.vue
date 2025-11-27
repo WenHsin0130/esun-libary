@@ -2,10 +2,10 @@
 // PrimeVue DataTable
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
-
+// PrimeVue 按鈕
 import Button from 'primevue/button'
-
-import ConfirmDialog from 'primevue/confirmdialog' // 確認借閱畫面
+// PrimeVue 確認視窗 (確認借閱畫面)
+import ConfirmDialog from 'primevue/confirmdialog'
 import Toast from 'primevue/toast';
 import { useConfirm } from "primevue/useconfirm"
 import { useToast } from "primevue/usetoast"
@@ -22,7 +22,6 @@ onMounted(async () => {
     const res = await fetch('http://localhost:8080/api/books')
     books.value = await res.json()
 })
-console.log(books)
 
 // 將借閱資訊 book 帶入表格 borrowItem 中
 const borrowItem = (book) => {
@@ -38,7 +37,7 @@ const borrowItem = (book) => {
 const confirm = useConfirm();
 const toast = useToast();
 
-const confirm1 = (isbn) => {
+const confirmBorrow = (isbn) => {
     // 從 books 資料中找到選擇的書籍的所有資訊 (使用 isbn 判斷) 
     const book = books.value.find(p => p.isbn === isbn)
 
@@ -96,7 +95,7 @@ const confirm1 = (isbn) => {
             <Column field="borrow" header="借閱">
                 <template #body="slotProps">
                     <!-- 借閱按鈕 (#body 為自訂欄位必要 label) -->
-                    <Button @click="confirm1(slotProps.data.isbn)" label="借閱" severity="success" variant="text" raised />
+                    <Button @click="confirmBorrow(slotProps.data.isbn)" label="借閱" severity="success" variant="text" raised />
                 </template>
             </Column>
         </DataTable>
