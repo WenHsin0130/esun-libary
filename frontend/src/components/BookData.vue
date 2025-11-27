@@ -2,8 +2,6 @@
 // PrimeVue DataTable
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
-import ColumnGroup from 'primevue/columngroup'   // optional
-import Row from 'primevue/row'                   // optional
 
 import Button from 'primevue/button'
 
@@ -12,49 +10,46 @@ import Toast from 'primevue/toast';
 import { useConfirm } from "primevue/useconfirm"
 import { useToast } from "primevue/usetoast"
 
-
-import { ref } from 'vue'
-
-const products = ref([
-    { isbn: 'P001', name: 'Laptop', author: 'Electronics', introduction: '台灣最高的山' },
-    { isbn: 'P002', name: 'Laptop', author: 'Electronics', introduction: '台灣' },
-    { isbn: 'P003', name: '123', author: 'Electronics', introduction: '台灣最高的山' },
-    { isbn: 'P001', name: 'Laptop', author: 'Electronics', introduction: '台灣最高的山' },
-    { isbn: 'P002', name: 'Laptop', author: 'Electronics', introduction: '台灣' },
-    { isbn: 'P003', name: '123', author: 'Electronics', introduction: '台灣最高的山' },
-    { isbn: 'P001', name: 'Laptop', author: 'Electronics', introduction: '台灣最高的山' },
-    { isbn: 'P002', name: 'Laptop', author: 'Electronics', introduction: '台灣' },
-    { isbn: 'P003', name: '123', author: 'Electronics', introduction: '台灣最高的山' },
-    { isbn: 'P001', name: 'Laptop', author: 'Electronics', introduction: '台灣最高的山' },
-    { isbn: 'P002', name: 'Laptop', author: 'Electronics', introduction: '台灣' },
-    { isbn: 'P003', name: '123', author: 'Electronics', introduction: '台灣最高的山' },
-    { isbn: 'P001', name: 'Laptop', author: 'Electronics', introduction: '台灣最高的山' },
-    { isbn: 'P002', name: 'Laptop', author: 'Electronics', introduction: '台灣' },
-    { isbn: 'P003', name: '123', author: 'Electronics', introduction: '台灣最高的山' }
-])
+import { ref, onMounted } from 'vue'
 
 
-// 將借閱資訊 product 帶入表格 borrowItem 中
-const borrowItem = (product) => {
-    console.log('Borrow:', product)
-    alert(`Borrow: ${product.name}`)
+// ref([]) 表示 books 的初始值是一個空陣列
+const books = ref([])
+
+onMounted(async () => {
+    // onMounted 是 Vue 的生命週期函式，當組件掛載到畫面上後會自動執行裡面的程式碼。
+    // 呼叫後端 Controller，將取得的值代入 books
+    const res = await fetch('http://localhost:8080/api/books')
+    books.value = await res.json()
+})
+console.log(books)
+
+// 將借閱資訊 book 帶入表格 borrowItem 中
+const borrowItem = (book) => {
+    console.log('Borrow:', book)
+    alert(`Borrow: ${book.name}`)
 }
 
-// 借閱按鈕連接的借閱資訊畫面
+/** 
+ * 借閱按鈕連接的借閱資訊畫面 
+ * confirm : 借閱視窗
+ * toast : 借閱提示/取消提示
+*/
 const confirm = useConfirm();
 const toast = useToast();
 
 const confirm1 = (isbn) => {
-    // 從 products 資料中找到選擇的書籍的所有資訊 (使用 isbn 判斷) 
-    const product = products.value.find(p => p.isbn === isbn)
+    // 從 books 資料中找到選擇的書籍的所有資訊 (使用 isbn 判斷) 
+    const book = books.value.find(p => p.isbn === isbn)
 
     confirm.require({
         // 借閱視窗控制: 借閱或取消
-        header: `借閱《${product.name}》`, // 書名
-        bookname: product.name, // 書名
-        author: product.author, // 作者
-        introduction: product.introduction, // 內容簡介
+        header: `借閱《${book.name}》`, // 書名
+        bookname: book.name, // 書名
+        author: book.author, // 作者
+        introduction: book.introduction, // 內容簡介
 
+        // 借閱視窗設計，包含文字、色彩等
         rejectProps: {
             label: '取消',
             severity: 'secondary',
@@ -63,11 +58,13 @@ const confirm1 = (isbn) => {
         acceptProps: {
             label: '確認借閱'
         },
+
+        // 借閱訊息: 接受出現借閱成功，反之則出現取消
         accept: () => {
-            toast.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
+            toast.add({ severity: 'info', summary: '借閱成功', detail: `已完成《${book.name}》借閱`, life: 3000 });
         },
         reject: () => {
-            toast.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+            toast.add({ severity: 'error', summary: '取消', detail: '取消借閱', life: 3000 });
         }
     })
 }
@@ -90,9 +87,9 @@ const confirm1 = (isbn) => {
         </ConfirmDialog>
         <Toast position="top-center" />
         <!-- 所有圖書資訊表 -->
-        <DataTable :value="products" stripedRows paginator :rows="10" :rowsPerPageOptions="[10, 20, 50]"
-            tableStyle="min-width: 50rem">
-            <Column field="isbn" header="ISBN (書號)"></Column>
+        <DataTable :value="books" stripedRows paginator :rows="10" :rowsPerPageOptions="[10, 20, 50]"
+            tableStyle="margin: 0 auto;">
+            <Column field="ISBN" header="ISBN (書號)"></Column>
             <Column field="name" header="書名"></Column>
             <Column field="author" header="作者"></Column>
             <Column field="introduction" header="內容簡介"></Column>

@@ -1,10 +1,9 @@
 .DS_Store
 .metadata
-frontend/node_modules
-frontend/dist
-
 
 # local env files
+frontend/node_modules
+frontend/dist
 frontend/.env.local
 frontend/.env.*.local
 
@@ -26,6 +25,7 @@ frontend/*.sw?
 
 ### Gradle ###
 backend/metadata
+backend/node_modules/
 backend/HELP.md
 backend/.gradle
 backend/build/
@@ -33,7 +33,9 @@ backend/gradle/wrapper/gradle-wrapper.jar
 backend/gradle/wrapper/gradle-wrapper.properties
 backend/!**/src/main/**/build/
 backend/!**/src/test/**/build/
+backend/src/main/resources/application.properties
 
 ### VS Code ###
 .vscode/
+
 
